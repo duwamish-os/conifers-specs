@@ -1,5 +1,6 @@
 package com.specs
 
+import org.scalamock.scalatest.MockFactory
 import org.scalatest.FunSpec
 
 /**
@@ -7,6 +8,6 @@ import org.scalatest.FunSpec
   * on 2/15/17.
   */
 
-abstract class UnitSpecs extends FunSpec {
+abstract class UnitSpecs extends FunSpec with MockFactory {
 
 }

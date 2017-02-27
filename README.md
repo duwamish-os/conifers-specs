@@ -22,7 +22,7 @@ Subject to test
 
 ```
 class Subject {
-  public void doSomething(String message) {
+  public String doSomething(String message) {
     return "Processing " + message;
   }
 }
@@ -89,4 +89,38 @@ class CustomerOrderFlowSpecs extends FlowSpecs {
   }
 }
 
+```
+
+To run the specs
+----------------
+
+```
+mvn test
+```
+
+Also, to have more control over the tests add the following plugin, (for example the specs are parallel by default, 
+which can be turned off etc). Also specific tests can be run, as I'm running only those tests
+tagged as `KinesisStream` in following example.
+
+```
+    <plugin>
+        <groupId>org.scalatest</groupId>
+        <artifactId>scalatest-maven-plugin</artifactId>
+        <version>1.0</version>
+        <configuration>
+            <parallel>false</parallel>
+            <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
+            <junitxml>.</junitxml>
+            <filereports>stream_specs.log</filereports>
+            <tagsToInclude>KinesisStream</tagsToInclude>
+        </configuration>
+        <executions>
+            <execution>
+                <id>test</id>
+                <goals>
+                    <goal>test</goal>
+                </goals>
+            </execution>
+        </executions>
+    </plugin>
 ```
