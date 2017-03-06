@@ -8,8 +8,6 @@ import org.apache.http.client.methods.{CloseableHttpResponse, HttpGet, HttpPost}
 import org.apache.http.entity.StringEntity
 import org.apache.http.impl.client.DefaultHttpClient
 
-import scala.util.parsing.json.{JSON, JSONType}
-
 /**
   * Created by prayagupd
   * on 3/4/17.
