@@ -15,8 +15,14 @@ Then use as a dependency
 </dependency>
 ```
 
-Unit specs
+[Unit specs](https://en.wikipedia.org/wiki/Unit_testing)
 ----------
+
+```
+a software testing method by which individual units of source code, sets of one or more computer 
+program modules together with associated control data, usage procedures, and operating procedures, 
+are tested to determine whether they are fit for use.
+```
 
 Subject to test
 
@@ -44,11 +50,22 @@ class SomeUnitSpecs extends UnitSpecs {
 }
 ```
 
-Component Specs
+[Component Specs](https://en.wikipedia.org/wiki/Integration_testing)
 ---------------
 
 ```
+Component testing is testing of specific module or program.
+It may be done in isolation from rest of the system depending on the life cycle model selected for 
+that particular application.
+
+Stub and driver are used for competent testing. These both are considered as component.
+```
+
+```
 class CustomerOrderComponentSpecs extends ComponentSpecs {
+
+    //beforeAll start a database server
+    //afterAll stop the database server
 
     scenario("when customer order is put") {
       Given("a order")
@@ -66,8 +83,12 @@ class CustomerOrderComponentSpecs extends ComponentSpecs {
 }
 ```
 
-Flow specs
+[Flow specs](https://en.wikipedia.org/wiki/System_testing#Types_of_tests_to_include_in_system_testing)
 ----------
+
+```
+System testing is testing conducted on a complete, integrated system to evaluate the system's compliance with its specified requirements. System testing falls within the scope of black-box testing, and as such, should require no knowledge of the inner design of the code or logic.
+```
 
 ```
 class CustomerOrderFlowSpecs extends FlowSpecs {
@@ -112,6 +133,7 @@ tagged as `KinesisStream` in following example.
             <reportsDirectory>${project.build.directory}/surefire-reports</reportsDirectory>
             <junitxml>.</junitxml>
             <filereports>stream_specs.log</filereports>
+            <htmlreporters>${project.build.directory}/surefire-reports/html</htmlreporters>
             <tagsToInclude>KinesisStream</tagsToInclude>
         </configuration>
         <executions>
