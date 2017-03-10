@@ -20,7 +20,7 @@
             <groupId>org.pegdown</groupId>
             <artifactId>pegdown</artifactId>
             <version>1.2.1</version>
-            <scope>test</scope>
+            <scope>compile</scope>
     </dependency>
 
     <dependency>
