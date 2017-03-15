@@ -5,6 +5,7 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{HttpRequest, HttpResponse, Uri}
 import akka.stream.ActorMaterializer
 import akka.stream.scaladsl.{Sink, Source}
+import akka.util.ByteString
 import com.specs.AsyncFlowSpecs
 
 import scala.concurrent.Future
@@ -25,5 +26,9 @@ class AsyncHttpFlowSpecs extends AsyncFlowSpecs {
     Source.single(request)
       .via(httpConnection)
       .runWith(Sink.head[HttpResponse])
+  }
+
+  def responseBodyBytes(response: HttpResponse): Future[ByteString] = {
+    response.entity.dataBytes.runFold(ByteString(""))(_ ++ _)
   }
 }
