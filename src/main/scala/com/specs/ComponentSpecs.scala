@@ -7,6 +7,6 @@ import org.scalatest.{BeforeAndAfterAll, BeforeAndAfterEach, FeatureSpec, GivenW
   * on 2/15/17.
   */
 
-class ComponentSpecs extends FeatureSpec with GivenWhenThen with BeforeAndAfterEach with BeforeAndAfterAll {
+trait ComponentSpecs extends FeatureSpec with GivenWhenThen with BeforeAndAfterEach with BeforeAndAfterAll {
 
 }

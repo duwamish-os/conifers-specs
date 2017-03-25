@@ -13,7 +13,7 @@ import org.apache.http.impl.client.DefaultHttpClient
   * on 3/4/17.
   */
 
-class HttpFlowSpecs extends FlowSpecs {
+trait HttpFlowSpecs extends FlowSpecs {
 
   def doHttpGet(endpoint: String): CloseableHttpResponse = {
     val httpRequest = new HttpGet(endpoint)
@@ -25,8 +25,8 @@ class HttpFlowSpecs extends FlowSpecs {
     val httpRequest = new HttpPost(endpoint)
     httpRequest.setHeader("Content-type", contentType)
     httpRequest.setEntity(new StringEntity(content))
-
     val response = (new DefaultHttpClient).execute(httpRequest)
+    println("http response :: " + response )
     response
   }
 

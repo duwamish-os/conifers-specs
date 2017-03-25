@@ -11,7 +11,7 @@ import org.json.JSONObject
   * on 3/20/17.
   */
 
-class DatabaseComponentSpecs extends ComponentSpecs {
+trait DatabaseComponentSpecs extends ComponentSpecs {
 
   val config = new Properties(){{
     load(this.getClass.getClassLoader.getResourceAsStream("application.properties"))
