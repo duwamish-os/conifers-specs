@@ -4,6 +4,7 @@ import java.sql._
 import java.util.Properties
 
 import com.specs.ComponentSpecs
+import org.apache.commons.dbcp.BasicDataSource
 import org.json.JSONObject
 
 /**
@@ -13,14 +14,16 @@ import org.json.JSONObject
 
 trait DatabaseComponentSpecs extends ComponentSpecs {
 
-  val config = new Properties(){{
+  val appConfig = new Properties(){{
     load(this.getClass.getClassLoader.getResourceAsStream("application.properties"))
   }}
 
-  val url: String = config.getProperty("state.url")
-  val database: String = config.getProperty("state.database.name")
-  val user: String = config.getProperty("state.username")
-  val password: String = config.getProperty("state.password")
+  val url: String = appConfig.getProperty("state.url")
+  val database: String = appConfig.getProperty("state.database.name")
+  val user: String = appConfig.getProperty("state.username")
+  val password: String = appConfig.getProperty("state.password")
+
+  val establishedConnections = connectionPool()
 
   def queryState(query: String, numberOfColumns: Int): java.util.List[JSONObject] = {
     var statement: Statement = null
@@ -63,7 +66,28 @@ trait DatabaseComponentSpecs extends ComponentSpecs {
     states
   }
 
-  // End main
+  def connectionPool() : BasicDataSource = {
+    println(s"setting up connection pool for $url")
+    val driver: String = appConfig.getProperty("state.database.driver")
+    val autoCommit: Boolean = appConfig.getOrDefault("state.database.auto.commit", "true").toString.toBoolean
+
+    val establishedConnections = new BasicDataSource()
+    establishedConnections.setUrl(url)
+    establishedConnections.setUsername(user)
+    establishedConnections.setPassword(password)
+    establishedConnections.setDriverClassName(driver)
+
+    establishedConnections.setMinIdle(5)
+    establishedConnections.setMaxIdle(10)
+    establishedConnections.setMaxOpenPreparedStatements(50)
+    establishedConnections.setInitialSize(5)
+    establishedConnections.setPoolPreparedStatements(true)
+    establishedConnections.setDefaultAutoCommit(autoCommit); //adds ~30ms, on connection creation delay
+    establishedConnections.getConnection.close()
+
+    establishedConnections
+  }
+
   def readState(databaseName: String, tableName: String): java.util.List[String] = {
     var statement: Statement = null
     var resultSet: ResultSet = null
@@ -89,11 +113,13 @@ trait DatabaseComponentSpecs extends ComponentSpecs {
       resultSet.close()
       statement.close()
       connection.commit()
+
+      println("readState :: closing connection")
       connection.close()
 
     } catch {
       case ex: SQLException => {
-        System.err.println("SQLException information")
+        System.err.println("readState :: SQLException error")
         while (ex != null) {
           System.err.println("Error msg: " + ex.getMessage)
           val ex1 = ex.getNextException
@@ -103,7 +129,6 @@ trait DatabaseComponentSpecs extends ComponentSpecs {
     states
   }
 
-  // End main
   def dropRecords(table: String) {
     var statement: Statement = null
     try {
@@ -116,11 +141,13 @@ trait DatabaseComponentSpecs extends ComponentSpecs {
       val end: Long = System.currentTimeMillis
       System.out.println("drop :: total time taken = " + (end - start) + " ms")
       statement.close()
+
+      println("dropRecords :: closing connection")
       connection.close()
 
     } catch {
       case ex: SQLException => {
-        System.err.println("SQLException information")
+        System.err.println("dropRecords :: SQLException information")
         while (ex != null) {
           System.err.println("Error msg: " + ex.getMessage)
           val ex1 = ex.getNextException
@@ -132,10 +159,6 @@ trait DatabaseComponentSpecs extends ComponentSpecs {
 
   @throws[SQLException]
   protected def getEstablishedDatabaseConnection: Connection = {
-    println(s"initialising connection for ${this.getClass.getSimpleName}")
-    val driver = DriverManager.getDriver(config.getProperty("state.url"))
-    DriverManager.registerDriver(driver)
-    val connection = DriverManager.getConnection(url, user, password)
-    connection
+    establishedConnections.getConnection
   }
 }

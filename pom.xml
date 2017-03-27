@@ -79,6 +79,20 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>io.gatling.highcharts</groupId>
+            <artifactId>gatling-charts-highcharts</artifactId>
+            <version>2.0.0</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-dbcp</groupId>
+            <artifactId>commons-dbcp</artifactId>
+            <version>1.4</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -127,6 +141,22 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>io.gatling</groupId>
+                <artifactId>gatling-maven-plugin</artifactId>
+                <version>2.0.0</version>
+                <configuration>
+                    <jvmArgs>
+                        <jvmArg>-Durl=http://localhost:9000</jvmArg>
+                        <jvmArg>-DnumberOfUsers=10</jvmArg>
+                        <jvmArg>-DnumberOfRepetitions=1</jvmArg>
+                        <jvmArg>-DdurationMinutes=1</jvmArg>
+                        <jvmArg>-DpauseBetweenRequestsMs=3000</jvmArg>
+                        <jvmArg>-Ddebug=true</jvmArg>
+                    </jvmArgs>
+                </configuration>
             </plugin>
 
         </plugins>
