@@ -17,6 +17,7 @@ trait HttpFlowSpecs extends FlowSpecs {
 
   def doHttpGet(endpoint: String): CloseableHttpResponse = {
     val httpRequest = new HttpGet(endpoint)
+    println(s"curl -XGET ${endpoint}")
     val response = (new DefaultHttpClient).execute(httpRequest)
     response
   }
@@ -25,6 +26,10 @@ trait HttpFlowSpecs extends FlowSpecs {
     val httpRequest = new HttpPost(endpoint)
     httpRequest.setHeader("Content-type", contentType)
     httpRequest.setEntity(new StringEntity(content))
+
+    val contentTypo = s"Content-Type: $contentType"
+    println(s"curl -H $contentTypo -XPOST -d '${content}' ${endpoint}")
+
     val response = (new DefaultHttpClient).execute(httpRequest)
     println("http response :: " + response )
     response
@@ -34,7 +39,7 @@ trait HttpFlowSpecs extends FlowSpecs {
     val responseBody: String = new BufferedReader(new InputStreamReader(response.getEntity.getContent))
       .lines().collect(Collectors.joining("\n"))
 
-    println("Response body = " + responseBody)
+    println("Http Response body = " + responseBody)
     responseBody
   }
 }

@@ -13,7 +13,7 @@ class SomeHttpFlowSpecs extends HttpFlowSpecs {
 
   feature("Getting user posts on my API server") {
 
-    scenario("As a software engineer, I want to receive the user posts when I call the endpoint") {
+    ignore("As a software engineer, I want to receive the user posts when I call the endpoint") {
 
       When("I send a GET request to the http endpoint")
       val response = doHttpGet("https://jsonplaceholder.typicode.com/posts/1")

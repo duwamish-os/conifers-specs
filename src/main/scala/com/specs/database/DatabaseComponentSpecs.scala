@@ -1,9 +1,9 @@
 package com.specs.database
 
 import java.sql._
-import java.util.Properties
 
 import com.specs.ComponentSpecs
+import com.specs.config.ConfigLoader
 import org.apache.commons.dbcp.BasicDataSource
 import org.json.JSONObject
 
@@ -14,9 +14,7 @@ import org.json.JSONObject
 
 trait DatabaseComponentSpecs extends ComponentSpecs {
 
-  val appConfig = new Properties(){{
-    load(this.getClass.getClassLoader.getResourceAsStream("application.properties"))
-  }}
+  val appConfig = new ConfigLoader().appConfig
 
   val url: String = appConfig.getProperty("state.url")
   val database: String = appConfig.getProperty("state.database.name")
@@ -85,6 +83,7 @@ trait DatabaseComponentSpecs extends ComponentSpecs {
     establishedConnections.setDefaultAutoCommit(autoCommit); //adds ~30ms, on connection creation delay
     establishedConnections.getConnection.close()
 
+    println("Physical connection pool is setup for " + establishedConnections.getValidationQuery)
     establishedConnections
   }
 
