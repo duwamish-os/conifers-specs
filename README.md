@@ -1,5 +1,5 @@
 
-install the specs-lib using maven, 
+install the conifers-specs using maven, 
 
 ```
 mvn clean install
@@ -10,8 +10,8 @@ Then use as a dependency
 ```
 <dependency>
   <groupId>com.specs</groupId>
-  <artifactId>specs-lib</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <artifactId>conifers-specs</artifactId>
+  <version>1.0</version>
 </dependency>
 ```
 
