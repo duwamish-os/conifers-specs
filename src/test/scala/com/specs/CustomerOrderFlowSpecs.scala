@@ -18,7 +18,7 @@ class CustomerOrderFlowSpecs extends FlowSpecs {
       customerOrder.checkout()
 
       Then("My order should be ready")
-      assert(customerOrder.state == "READY")
+      customerOrder.state shouldBe "READY"
     }
 
   }

@@ -17,7 +17,7 @@ class CustomerOrderComponentSpecs extends ComponentSpecs {
       order.checkout()
 
       Then("should be ready")
-      assert(order.state == "READY")
+      order.state shouldBe "READY"
       //maybe I want to test its state in database as well
       //more granular assertions than FlowSpecs
     }

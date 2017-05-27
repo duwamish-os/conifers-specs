@@ -42,7 +42,7 @@ class AsyncSomeHttpFlowSpecs extends AsyncHttpFlowSpecs with Informing {
           println(s"After assertion ${json}")
         }
         }
-        assert(response.status == StatusCode.int2StatusCode(200))
+        response.status shouldBe StatusCode.int2StatusCode(200)
       }
       }
     }

@@ -31,7 +31,7 @@ class SomeHttpFlowSpecs extends HttpFlowSpecs {
           |}
         """.stripMargin
 
-      assert(JSON.parseRaw(responseContent(response)) == JSON.parseRaw(expectedJson))
+      JSON.parseRaw(responseContent(response)) shouldBe JSON.parseRaw(expectedJson)
     }
   }
 }
