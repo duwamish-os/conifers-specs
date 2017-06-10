@@ -14,4 +14,3 @@ class CustomerOrder(items: List[Item]) {
 }
 
 case class Item(name: String)
-

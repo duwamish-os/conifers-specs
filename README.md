@@ -1,5 +1,5 @@
 
-install the specs-lib using maven, 
+install the conifers-specs using maven, 
 
 ```
 mvn clean install
@@ -10,8 +10,8 @@ Then use as a dependency
 ```
 <dependency>
   <groupId>com.specs</groupId>
-  <artifactId>specs-lib</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <artifactId>conifers-specs</artifactId>
+  <version>1.0</version>
 </dependency>
 ```
 
@@ -67,15 +67,15 @@ class CustomerOrderComponentSpecs extends ComponentSpecs {
     //beforeAll start a database server
     //afterAll stop the database server
 
-    scenario("when customer order is put") {
-      Given("a order")
+    scenario("successful customer order") {
+      Given("an order")
       val order = new CustomerOrder(List(Item("Skateboard")))
 
       When("order is checked out")
       order.checkout()
 
-      Then("should be ready")
-      assert(order.state == "READY")
+      Then("should be ready to be shipped")
+      assert(order.state == "READY TO BE SHIPPED")
       //maybe I want to test its state in database as well
       //more granular assertions than FlowSpecs
     }
@@ -87,7 +87,10 @@ class CustomerOrderComponentSpecs extends ComponentSpecs {
 ----------
 
 ```
-System testing is testing conducted on a complete, integrated system to evaluate the system's compliance with its specified requirements. System testing falls within the scope of black-box testing, and as such, should require no knowledge of the inner design of the code or logic.
+System testing is testing conducted on a complete, integrated system to 
+evaluate the system's compliance with its specified requirements. 
+System testing falls within the scope of black-box testing, and as such, 
+should require no knowledge of the inner design of the code or logic.
 ```
 
 ```

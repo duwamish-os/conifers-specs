@@ -13,10 +13,11 @@ import org.apache.http.impl.client.DefaultHttpClient
   * on 3/4/17.
   */
 
-class HttpFlowSpecs extends FlowSpecs {
+trait HttpFlowSpecs extends FlowSpecs {
 
   def doHttpGet(endpoint: String): CloseableHttpResponse = {
     val httpRequest = new HttpGet(endpoint)
+    println(s"curl -XGET ${endpoint}")
     val response = (new DefaultHttpClient).execute(httpRequest)
     response
   }
@@ -26,7 +27,11 @@ class HttpFlowSpecs extends FlowSpecs {
     httpRequest.setHeader("Content-type", contentType)
     httpRequest.setEntity(new StringEntity(content))
 
+    val contentTypo = s"Content-Type: $contentType"
+    println(s"curl -H $contentTypo -XPOST -d '${content}' ${endpoint}")
+
     val response = (new DefaultHttpClient).execute(httpRequest)
+    println("http response :: " + response )
     response
   }
 
@@ -34,7 +39,7 @@ class HttpFlowSpecs extends FlowSpecs {
     val responseBody: String = new BufferedReader(new InputStreamReader(response.getEntity.getContent))
       .lines().collect(Collectors.joining("\n"))
 
-    println("Response body = " + responseBody)
+    println("Http Response body = " + responseBody)
     responseBody
   }
 }

@@ -12,7 +12,7 @@ class SomeUnitSpecs extends UnitSpecs {
       val subject = new Subject()
       val response = subject.doSomething("event")
 
-      assert(response == "Processing event")
+      response shouldBe "Processing event"
     }
   }
 }
